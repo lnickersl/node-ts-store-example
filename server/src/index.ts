@@ -5,6 +5,7 @@ dotenv.config();
 
 import sequelize from './db';
 import {} from './models/models';
+import router from './routes/index';
 
 const {PORT} = process.env;
 
@@ -12,6 +13,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use('/api', router);
 
 app.get('/', (req, res) => {
   res.status(200).json({message: 'Hello world'});
