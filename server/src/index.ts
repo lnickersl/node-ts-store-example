@@ -4,6 +4,7 @@ import * as cors from 'cors';
 dotenv.config();
 
 import sequelize from './db';
+import {} from './models/models';
 
 const {PORT} = process.env;
 
