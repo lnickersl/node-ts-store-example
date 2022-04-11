@@ -1,9 +1,10 @@
 import {Router} from 'express';
+import purchaseController from '../controllers/purchaseController';
 
 const router = Router();
 
-router.post('/');
-router.get('/');
-router.get('/:id');
+router.post('/', purchaseController.create);
+router.get('/', purchaseController.getAll);
+router.get('/:id', purchaseController.getOne);
 
 export default router;
