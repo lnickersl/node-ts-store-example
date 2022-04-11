@@ -98,7 +98,7 @@ PurchaseItem.belongsTo(Purchase);
 PurchaseItem.hasOne(Product);
 Product.belongsTo(PurchaseItem);
 
-export default {
+export {
   User,
   Basket,
   BasketItem,
