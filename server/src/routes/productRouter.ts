@@ -5,7 +5,8 @@ import productController from '../controllers/productController';
 const router = Router();
 
 router.post('/', controllerErrorCatch(productController.create));
-router.get('/', controllerErrorCatch(productController.getAll));
 router.get('/:id', controllerErrorCatch(productController.getOne));
+router.get('/', controllerErrorCatch(productController.getAll));
+router.delete('/', controllerErrorCatch(productController.delete));
 
 export default router;

@@ -4,7 +4,7 @@ import {EUserRole} from './EUserRole';
 
 const User = sequelize.define('user', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  email: {type: DataTypes.STRING, unique: true},
+  email: {type: DataTypes.STRING, unique: true, validate: {isEmail: true}},
   password: {type: DataTypes.STRING},
   role: {type: DataTypes.STRING, defaultValue: EUserRole.USER},
   name: {type: DataTypes.STRING},
@@ -74,7 +74,7 @@ Rating.belongsTo(User);
 Basket.hasMany(BasketItem);
 BasketItem.belongsTo(Basket);
 
-Product.hasMany(ProductInfo);
+Product.hasMany(ProductInfo, {as: 'info'});
 ProductInfo.belongsTo(Product);
 
 Product.hasMany(Rating);
