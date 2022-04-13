@@ -2,11 +2,9 @@ import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as cors from 'cors';
 import * as fileupload from 'express-fileupload';
-import * as path from 'path';
 dotenv.config();
 
 import sequelize from './db';
-import {} from './models/models';
 import router from './routes/index';
 import errorMiddleware from './middleware/errorMiddleware';
 import resolveStatic from './helpers/resolveStatic';
