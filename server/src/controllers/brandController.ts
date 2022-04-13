@@ -1,6 +1,6 @@
 import {RequestHandler} from 'express';
 import {ApiError} from '../errors/ApiError';
-import {Brand} from '../models/models';
+import Brand from '../models/Brand';
 
 class BrandController {
   public create: RequestHandler = async (req, res, next) => {

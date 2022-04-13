@@ -1,6 +1,6 @@
 import {RequestHandler} from 'express';
-import {Category} from '../models/models';
 import {ApiError} from '../errors/ApiError';
+import Category from '../models/Category';
 
 class CategoryController {
   public create: RequestHandler = async (req, res, next) => {

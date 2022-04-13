@@ -1,12 +1,10 @@
 import {RequestHandler} from 'express';
 import * as uuid from 'uuid';
 import {ApiError} from '../errors/ApiError';
-import {Product, ProductInfo} from '../models/models';
 import * as fs from 'fs';
 import resolveStatic from '../helpers/resolveStatic';
-import {stringify} from 'querystring';
-import {nextTick} from 'process';
-import {Model} from 'sequelize/types';
+import ProductInfo from '../models/ProductInfo';
+import Product, {ProductModel} from '../models/Product';
 
 class ProductController {
   public create: RequestHandler = async (req, res, next) => {
@@ -29,7 +27,7 @@ class ProductController {
 
     img?.mv(filePath);
 
-    let product: Model;
+    let product: ProductModel;
 
     try {
       product = await Product.create({
@@ -51,7 +49,7 @@ class ProductController {
         ProductInfo.create({
           title: info.title,
           description: info.description,
-          productId: product.get().id,
+          productId: product.id,
         });
       });
     }
@@ -106,7 +104,7 @@ class ProductController {
     const product = await Product.findOne({where: {id}});
 
     if (product) {
-      const imgPath = resolveStatic('img', 'products', product.get().img);
+      const imgPath = resolveStatic('img', 'products', product.img);
 
       fs.unlink(imgPath, () => {});
     }
