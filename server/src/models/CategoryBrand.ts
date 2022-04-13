@@ -6,8 +6,6 @@ import {
   Model,
 } from 'sequelize';
 import sequelize from '../db';
-import Brand from './Brand';
-import Category from './Category';
 
 interface CategoryBrandModel
   extends Model<
@@ -26,8 +24,5 @@ const CategoryBrand = sequelize.define<CategoryBrandModel>('category_brand', {
   brandId: {type: DataTypes.INTEGER},
   categoryId: {type: DataTypes.INTEGER},
 });
-
-Category.belongsToMany(Brand, {through: CategoryBrand});
-Brand.belongsToMany(Category, {through: CategoryBrand});
 
 export default CategoryBrand;

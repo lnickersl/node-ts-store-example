@@ -6,7 +6,6 @@ import {
   Model,
 } from 'sequelize';
 import sequelize from '../db';
-import Product from './Product';
 
 interface ProductInfoModel
   extends Model<
@@ -27,7 +26,5 @@ const ProductInfo = sequelize.define<ProductInfoModel>('product_info', {
 
   productId: {type: DataTypes.INTEGER},
 });
-
-ProductInfo.belongsTo(Product);
 
 export default ProductInfo;

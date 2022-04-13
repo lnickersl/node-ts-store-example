@@ -6,8 +6,6 @@ import {
   Model,
 } from 'sequelize';
 import sequelize from '../db';
-import Product from './Product';
-import Purchase from './Purchase';
 
 interface PurchaseItemModel
   extends Model<
@@ -30,8 +28,5 @@ const PurchaseItem = sequelize.define<PurchaseItemModel>('purchase_item', {
   productId: {type: DataTypes.INTEGER},
   purchaseId: {type: DataTypes.INTEGER},
 });
-
-PurchaseItem.belongsTo(Product);
-PurchaseItem.belongsTo(Purchase);
 
 export default PurchaseItem;

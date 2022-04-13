@@ -6,8 +6,6 @@ import {
   Model,
 } from 'sequelize';
 import sequelize from '../db';
-import Product from './Product';
-import User from './User';
 
 interface RatingModel
   extends Model<
@@ -26,8 +24,5 @@ const Rating = sequelize.define<RatingModel>('rating', {
   productId: {type: DataTypes.INTEGER},
   userId: {type: DataTypes.INTEGER},
 });
-
-Rating.belongsTo(Product);
-Rating.belongsTo(User);
 
 export default Rating;

@@ -6,12 +6,6 @@ import {
   Model,
 } from 'sequelize';
 import sequelize from '../db';
-import BasketItem from './BasketItem';
-import Brand from './Brand';
-import Category from './Category';
-import ProductInfo from './ProductInfo';
-import PurchaseItem from './PurchaseItem';
-import Rating from './Rating';
 
 export interface ProductModel
   extends Model<
@@ -38,13 +32,5 @@ const Product = sequelize.define<ProductModel>('product', {
   brandId: {type: DataTypes.INTEGER},
   categoryId: {type: DataTypes.INTEGER},
 });
-
-Product.hasMany(ProductInfo, {as: 'info'});
-Product.hasMany(Rating);
-Product.hasMany(BasketItem);
-Product.hasMany(PurchaseItem);
-
-Product.belongsTo(Brand);
-Product.belongsTo(Category);
 
 export default Product;

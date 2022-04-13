@@ -6,8 +6,6 @@ import {
   Model,
 } from 'sequelize';
 import sequelize from '../db';
-import Basket from './Basket';
-import Product from './Product';
 
 interface BasketItemModel
   extends Model<
@@ -28,8 +26,5 @@ const BasketItem = sequelize.define<BasketItemModel>('basket_item', {
   productId: {type: DataTypes.INTEGER},
   basketId: {type: DataTypes.INTEGER},
 });
-
-BasketItem.belongsTo(Product);
-BasketItem.belongsTo(Basket);
 
 export default BasketItem;
