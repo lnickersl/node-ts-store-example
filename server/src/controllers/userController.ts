@@ -9,6 +9,20 @@ export interface IUserRequest extends Request {
   user?: any;
 }
 
+function generateJwt(id: number, email: string, role: EUserRole) {
+  return jwt.sign(
+    {
+      id,
+      email,
+      role,
+    },
+    process.env.SECRET_KEY!,
+    {
+      expiresIn: '24h',
+    }
+  );
+}
+
 class UserController {
   public async registration(
     req: IUserRequest,
@@ -40,7 +54,7 @@ class UserController {
 
     const userBasket = Basket.create({userId: newUser.id});
 
-    const token = this.generateJwt(newUser.id, email, role);
+    const token = generateJwt(newUser.id, email, role);
 
     return res.json({token});
   }
@@ -62,32 +76,18 @@ class UserController {
       return next(ApiError.badRequest('Неверный пароль'));
     }
 
-    const token = this.generateJwt(user.id, user.email, user.role);
+    const token = generateJwt(user.id, user.email, user.role);
 
     return res.json({token});
   };
 
-  public async auth(req: IUserRequest, res: Response, next: NextFunction) {
+  public async auth(req: IUserRequest, res: Response) {
     const {id, email, role} = req.user;
 
-    const token = this.generateJwt(id, email, role);
+    const token = generateJwt(id, email, role);
 
     return res.json({token});
   }
-
-  private generateJwt = (id: number, email: string, role: EUserRole) => {
-    return jwt.sign(
-      {
-        id,
-        email,
-        role,
-      },
-      process.env.SECRET_KEY!,
-      {
-        expiresIn: '24h',
-      }
-    );
-  };
 }
 
 export default new UserController();

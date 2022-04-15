@@ -11,11 +11,12 @@ router.post(
   authMiddleware(EUserRole.Admin),
   controllerErrorCatch(brandController.create)
 );
-router.get('/', controllerErrorCatch(brandController.getAll));
 router.delete(
   '/',
   authMiddleware(EUserRole.Admin),
   controllerErrorCatch(brandController.delete)
 );
+
+router.get('/', controllerErrorCatch(brandController.getAll));
 
 export default router;
