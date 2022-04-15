@@ -9,8 +9,11 @@ import router from './routes/index';
 import errorMiddleware from './middleware/errorMiddleware';
 import resolveStatic from './helpers/resolveStatic';
 import jwtMiddleware from './middleware/jwtMiddleware';
+import associate from './models/associations';
 
 const {PORT} = process.env;
+
+associate();
 
 const app = express();
 

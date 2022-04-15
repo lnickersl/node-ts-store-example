@@ -10,38 +10,40 @@ import PurchaseItem from './PurchaseItem';
 import Rating from './Rating';
 import User from './User';
 
-Brand.hasMany(Product);
-Product.belongsTo(Brand);
+export default function associate() {
+  Brand.hasMany(Product, {as: 'products'});
+  Product.belongsTo(Brand);
 
-Category.hasMany(Product);
-Product.belongsTo(Category);
+  Category.hasMany(Product, {as: 'products'});
+  Product.belongsTo(Category);
 
-Category.belongsToMany(Brand, {through: CategoryBrand});
-Brand.belongsToMany(Category, {through: CategoryBrand});
+  Category.belongsToMany(Brand, {through: CategoryBrand});
+  Brand.belongsToMany(Category, {through: CategoryBrand});
 
-Product.hasMany(ProductInfo, {as: 'info'});
-ProductInfo.belongsTo(Product);
+  Product.hasMany(ProductInfo, {as: 'info'});
+  ProductInfo.belongsTo(Product);
 
-Product.hasMany(Rating);
-Rating.belongsTo(Product);
+  Product.hasMany(Rating, {as: 'ratings'});
+  Rating.belongsTo(Product);
 
-Product.hasMany(BasketItem);
-BasketItem.belongsTo(Product);
+  Product.hasMany(BasketItem);
+  BasketItem.belongsTo(Product, {as: 'product'});
 
-Product.hasMany(PurchaseItem);
-PurchaseItem.belongsTo(Product);
+  Product.hasMany(PurchaseItem);
+  PurchaseItem.belongsTo(Product, {as: 'product'});
 
-Purchase.hasMany(PurchaseItem);
-PurchaseItem.belongsTo(Purchase);
+  Purchase.hasMany(PurchaseItem, {as: 'items'});
+  PurchaseItem.belongsTo(Purchase);
 
-User.hasOne(Basket);
-Basket.belongsTo(User);
+  User.hasOne(Basket, {foreignKey: 'userId', as: 'basket'});
+  Basket.belongsTo(User, {foreignKey: 'userId', as: 'basket'});
 
-User.hasMany(Purchase);
-Purchase.belongsTo(User);
+  User.hasMany(Purchase, {as: 'purchases'});
+  Purchase.belongsTo(User);
 
-User.hasMany(Rating);
-Rating.belongsTo(User);
+  User.hasMany(Rating, {as: 'ratings'});
+  Rating.belongsTo(User);
 
-Basket.hasMany(BasketItem);
-BasketItem.belongsTo(Basket);
+  Basket.hasMany(BasketItem, {as: 'items'});
+  BasketItem.belongsTo(Basket);
+}
