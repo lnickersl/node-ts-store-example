@@ -7,6 +7,10 @@ const router = Router();
 
 router.post('/registration', controllerErrorCatch(userController.registration));
 router.post('/login', controllerErrorCatch(userController.login));
-router.get('/auth', authMiddleware, controllerErrorCatch(userController.auth));
+router.get(
+  '/auth',
+  authMiddleware(),
+  controllerErrorCatch(userController.auth)
+);
 
 export default router;

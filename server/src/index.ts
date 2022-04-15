@@ -8,6 +8,7 @@ import sequelize from './db';
 import router from './routes/index';
 import errorMiddleware from './middleware/errorMiddleware';
 import resolveStatic from './helpers/resolveStatic';
+import jwtMiddleware from './middleware/jwtMiddleware';
 
 const {PORT} = process.env;
 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(resolveStatic()));
 app.use(fileupload({}));
+app.use(jwtMiddleware);
 app.use('/api', router);
 
 app.use(errorMiddleware);

@@ -2,19 +2,19 @@ import {Router} from 'express';
 import brandController from '../controllers/brandController';
 import {EUserRole} from '../enums/EUserRole';
 import {controllerErrorCatch} from '../helpers/controllerErrorCatch';
-import roleMiddleware from '../middleware/roleMiddleware';
+import authMiddleware from '../middleware/authMiddleware';
 
 const router = Router();
 
 router.post(
   '/',
-  roleMiddleware(EUserRole.Admin),
+  authMiddleware(EUserRole.Admin),
   controllerErrorCatch(brandController.create)
 );
 router.get('/', controllerErrorCatch(brandController.getAll));
 router.delete(
   '/',
-  roleMiddleware(EUserRole.Admin),
+  authMiddleware(EUserRole.Admin),
   controllerErrorCatch(brandController.delete)
 );
 

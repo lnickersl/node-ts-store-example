@@ -10,7 +10,11 @@ export interface IUserRequest extends Request {
 }
 
 class UserController {
-  public registration: RequestHandler = async (req, res, next) => {
+  public async registration(
+    req: IUserRequest,
+    res: Response,
+    next: NextFunction
+  ) {
     const {email, password, role, name = ''} = req.body;
 
     if (!email || !password) {
@@ -39,7 +43,7 @@ class UserController {
     const token = this.generateJwt(newUser.id, email, role);
 
     return res.json({token});
-  };
+  }
 
   public login: RequestHandler = async (req, res, next) => {
     const {email, password} = req.body;

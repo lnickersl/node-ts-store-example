@@ -1,28 +1,21 @@
-import {NextFunction, Request, RequestHandler, Response} from 'express';
-import * as jwt from 'jsonwebtoken';
+import {NextFunction, Response} from 'express';
 import {IUserRequest} from '../controllers/userController';
+import {EUserRole} from '../enums/EUserRole';
 
-export default function authMiddleware(
-  req: IUserRequest,
-  res: Response,
-  next: NextFunction
-) {
-  if (req.method === 'OPTIONS') {
-    return next();
-  }
+export default function authMiddleware(role?: EUserRole) {
+  return function (req: IUserRequest, res: Response, next: NextFunction) {
+    if (req.method === 'OPTIONS') {
+      return next();
+    }
 
-  try {
-    const token = req?.headers?.authorization?.split(' ')[1];
+    if (!req.user) {
+      return res.status(401).json({message: 'Пользователь не авторизован'});
+    }
 
-    if (!token) throw 'Нет токена';
+    if (role && req.user.role !== role) {
+      return res.status(403).json({message: 'Недостаточно прав'});
+    }
 
-    const decoded = jwt.verify(token, process.env.SECRET_KEY!);
-
-    req.user = decoded;
     next();
-  } catch (err) {
-    res.status(401).json({message: 'Пользователь не авторизован'});
-  }
+  };
 }
-
-authMiddleware;
