@@ -64,7 +64,11 @@ class UserController {
   };
 
   public async auth(req: IUserRequest, res: Response, next: NextFunction) {
-    return res.json(111);
+    const {id, email, role} = req.user;
+
+    const token = this.generateJwt(id, email, role);
+
+    return res.json({token});
   }
 
   private generateJwt = (id: number, email: string, role: EUserRole) => {
