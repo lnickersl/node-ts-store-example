@@ -1,5 +1,5 @@
-import Basket from './Basket';
-import BasketItem from './BasketItem';
+import Cart from './Cart';
+import CartItem from './CartItem';
 import Brand from './Brand';
 import Category from './Category';
 import CategoryBrand from './CategoryBrand';
@@ -26,8 +26,8 @@ export default function associate() {
   Product.hasMany(Rating, {as: 'ratings'});
   Rating.belongsTo(Product);
 
-  Product.hasMany(BasketItem);
-  BasketItem.belongsTo(Product, {as: 'product'});
+  Product.hasMany(CartItem);
+  CartItem.belongsTo(Product, {as: 'product'});
 
   Product.hasMany(PurchaseItem);
   PurchaseItem.belongsTo(Product, {as: 'product'});
@@ -35,8 +35,8 @@ export default function associate() {
   Purchase.hasMany(PurchaseItem, {as: 'items'});
   PurchaseItem.belongsTo(Purchase);
 
-  User.hasOne(Basket, {foreignKey: 'userId', as: 'basket'});
-  Basket.belongsTo(User, {foreignKey: 'userId', as: 'basket'});
+  User.hasOne(Cart, {foreignKey: 'userId', as: 'cart'});
+  Cart.belongsTo(User, {foreignKey: 'userId', as: 'cart'});
 
   User.hasMany(Purchase, {as: 'purchases'});
   Purchase.belongsTo(User);
@@ -44,6 +44,6 @@ export default function associate() {
   User.hasMany(Rating, {as: 'ratings'});
   Rating.belongsTo(User);
 
-  Basket.hasMany(BasketItem, {as: 'items'});
-  BasketItem.belongsTo(Basket);
+  Cart.hasMany(CartItem, {as: 'items'});
+  CartItem.belongsTo(Cart);
 }

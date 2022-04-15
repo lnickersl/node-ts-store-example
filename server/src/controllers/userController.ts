@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import {ApiError} from '../errors/ApiError';
 import User from '../models/User';
-import Basket from '../models/Basket';
+import Cart from '../models/Cart';
 import {EUserRole} from '../enums/EUserRole';
 export interface IUserRequest extends Request {
   user?: any;
@@ -52,7 +52,7 @@ class UserController {
       name,
     });
 
-    const userBasket = Basket.create({userId: newUser.id});
+    const userCart = Cart.create({userId: newUser.id});
 
     const token = generateJwt(newUser.id, email, role);
 

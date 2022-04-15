@@ -7,20 +7,20 @@ import {
 } from 'sequelize';
 import sequelize from '../db';
 
-interface BasketModel
+interface CartModel
   extends Model<
-    InferAttributes<BasketModel>,
-    InferCreationAttributes<BasketModel>
+    InferAttributes<CartModel>,
+    InferCreationAttributes<CartModel>
   > {
   id: CreationOptional<number>;
 
   userId: number;
 }
 
-const Basket = sequelize.define<BasketModel>('basket', {
+const Cart = sequelize.define<CartModel>('cart', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 
   userId: {type: DataTypes.INTEGER},
 });
 
-export default Basket;
+export default Cart;
