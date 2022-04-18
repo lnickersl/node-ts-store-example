@@ -27,16 +27,16 @@ export default function associate() {
   Rating.belongsTo(Product);
 
   Product.hasMany(CartItem);
-  CartItem.belongsTo(Product, {as: 'product'});
+  CartItem.belongsTo(Product);
 
   Product.hasMany(PurchaseItem);
-  PurchaseItem.belongsTo(Product, {as: 'product'});
+  PurchaseItem.belongsTo(Product);
 
   Purchase.hasMany(PurchaseItem, {as: 'items'});
   PurchaseItem.belongsTo(Purchase);
 
-  User.hasOne(Cart, {foreignKey: 'userId', as: 'cart'});
-  Cart.belongsTo(User, {foreignKey: 'userId', as: 'cart'});
+  User.hasOne(Cart, {foreignKey: 'userId'});
+  Cart.belongsTo(User, {foreignKey: 'userId'});
 
   User.hasMany(Purchase, {as: 'purchases'});
   Purchase.belongsTo(User);
