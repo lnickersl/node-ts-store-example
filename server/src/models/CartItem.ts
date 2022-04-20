@@ -11,10 +11,6 @@ import {Product} from './Product';
 
 @Table
 export class CartItem extends Model {
-  @Default(1)
-  @Column(DataType.INTEGER)
-  public amount!: number;
-
   @ForeignKey(() => Product)
   public productId!: number;
 
