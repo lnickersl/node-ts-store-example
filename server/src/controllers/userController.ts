@@ -2,8 +2,8 @@ import {NextFunction, Request, RequestHandler, Response} from 'express';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import {ApiError} from '../errors/ApiError';
-import User from '../models/User';
-import Cart from '../models/Cart';
+import {User} from '../models/User';
+import {Cart} from '../models/Cart';
 import {EUserRole} from '../enums/EUserRole';
 export interface IUserRequest extends Request {
   user?: any;

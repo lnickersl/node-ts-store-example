@@ -1,24 +1,27 @@
 import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  AllowNull,
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
   Model,
-} from 'sequelize';
-import sequelize from '../db';
+  Table,
+  Unique,
+} from 'sequelize-typescript';
+import {Category} from './Category';
+import {CategoryBrand} from './CategoryBrand';
+import {Product} from './Product';
 
-export interface BrandModel
-  extends Model<
-    InferAttributes<BrandModel>,
-    InferCreationAttributes<BrandModel>
-  > {
-  id: CreationOptional<number>;
-  name: string;
+@Table
+export class Brand extends Model {
+  @Unique
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public name!: string;
+
+  @BelongsToMany(() => Category, () => CategoryBrand)
+  public categories!: Category[];
+
+  @HasMany(() => Product)
+  public products!: Product[];
 }
-
-const Brand = sequelize.define<BrandModel>('brand', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  name: {type: DataTypes.STRING, unique: true, allowNull: false},
-});
-
-export default Brand;

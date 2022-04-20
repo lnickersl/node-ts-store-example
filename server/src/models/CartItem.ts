@@ -1,30 +1,23 @@
 import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
   Model,
-} from 'sequelize';
-import sequelize from '../db';
+  Table,
+} from 'sequelize-typescript';
+import {Cart} from './Cart';
+import {Product} from './Product';
 
-interface CartItemModel
-  extends Model<
-    InferAttributes<CartItemModel>,
-    InferCreationAttributes<CartItemModel>
-  > {
-  id: CreationOptional<number>;
-  amount: number;
+@Table
+export class CartItem extends Model {
+  @Default(1)
+  @Column(DataType.INTEGER)
+  public amount!: number;
 
-  productId: number;
-  cartId: number;
+  @ForeignKey(() => Product)
+  public productId!: number;
+
+  @ForeignKey(() => Cart)
+  public cartId!: number;
 }
-
-const CartItem = sequelize.define<CartItemModel>('cart_item', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  amount: {type: DataTypes.INTEGER, defaultValue: 1},
-
-  productId: {type: DataTypes.INTEGER},
-  cartId: {type: DataTypes.INTEGER},
-});
-
-export default CartItem;

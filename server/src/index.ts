@@ -9,11 +9,8 @@ import router from './routes/index';
 import errorMiddleware from './middleware/errorMiddleware';
 import resolveStatic from './helpers/resolveStatic';
 import jwtMiddleware from './middleware/jwtMiddleware';
-import associate from './models/associations';
 
 const {PORT} = process.env;
-
-associate();
 
 const app = express();
 
@@ -32,8 +29,8 @@ app.get('/', (req, res) => {
 
 const start = async () => {
   try {
-    sequelize.authenticate();
-    sequelize.sync();
+    sequelize.authenticate().catch(console.log);
+    sequelize.sync().catch(console.log);
 
     app.listen(PORT, () => {
       console.log(`Server started on port: ${PORT}`);

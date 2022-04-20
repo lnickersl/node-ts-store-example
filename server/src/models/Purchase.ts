@@ -1,28 +1,24 @@
 import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  AllowNull,
+  Column,
+  DataType,
+  ForeignKey,
+  HasMany,
   Model,
-} from 'sequelize';
-import sequelize from '../db';
+  Table,
+} from 'sequelize-typescript';
+import {PurchaseItem} from './PurchaseItem';
+import {User} from './User';
 
-interface PurchaseModel
-  extends Model<
-    InferAttributes<PurchaseModel>,
-    InferCreationAttributes<PurchaseModel>
-  > {
-  id: CreationOptional<number>;
-  time: number;
+@Table
+export class Purchase extends Model {
+  @AllowNull(false)
+  @Column(DataType.DATE)
+  public time!: Date;
 
-  userId: number;
+  @ForeignKey(() => User)
+  public userId!: number;
+
+  @HasMany(() => PurchaseItem)
+  public items!: PurchaseItem[];
 }
-
-const Purchase = sequelize.define<PurchaseModel>('purchase', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  time: {type: DataTypes.INTEGER, allowNull: false},
-
-  userId: {type: DataTypes.INTEGER},
-});
-
-export default Purchase;

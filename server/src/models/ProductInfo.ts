@@ -1,30 +1,25 @@
 import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  AllowNull,
+  Column,
+  DataType,
+  ForeignKey,
   Model,
-} from 'sequelize';
-import sequelize from '../db';
+  Table,
+  Unique,
+} from 'sequelize-typescript';
+import {Product} from './Product';
 
-interface ProductInfoModel
-  extends Model<
-    InferAttributes<ProductInfoModel>,
-    InferCreationAttributes<ProductInfoModel>
-  > {
-  id: CreationOptional<number>;
-  title: string;
-  description: string;
+@Table
+export class ProductInfo extends Model {
+  @Unique
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public key!: string;
 
-  productId: number;
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public value!: string;
+
+  @ForeignKey(() => Product)
+  public productId!: number;
 }
-
-const ProductInfo = sequelize.define<ProductInfoModel>('product_info', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  title: {type: DataTypes.STRING, unique: true, allowNull: false},
-  description: {type: DataTypes.STRING, allowNull: false},
-
-  productId: {type: DataTypes.INTEGER},
-});
-
-export default ProductInfo;

@@ -1,32 +1,27 @@
 import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  AllowNull,
+  Column,
+  DataType,
+  ForeignKey,
   Model,
-} from 'sequelize';
-import sequelize from '../db';
+  Table,
+} from 'sequelize-typescript';
+import {Product} from './Product';
+import {Purchase} from './Purchase';
 
-interface PurchaseItemModel
-  extends Model<
-    InferAttributes<PurchaseItemModel>,
-    InferCreationAttributes<PurchaseItemModel>
-  > {
-  id: CreationOptional<number>;
-  product_price: number;
-  product_amount: number;
+@Table
+export class PurchaseItem extends Model {
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  public product_price!: number;
 
-  productId: number;
-  purchaseId: number;
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  public product_amount!: number;
+
+  @ForeignKey(() => Product)
+  public productId!: number;
+
+  @ForeignKey(() => Purchase)
+  public purchaseId!: number;
 }
-
-const PurchaseItem = sequelize.define<PurchaseItemModel>('purchase_item', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  product_price: {type: DataTypes.INTEGER, allowNull: false},
-  product_amount: {type: DataTypes.INTEGER, allowNull: false},
-
-  productId: {type: DataTypes.INTEGER},
-  purchaseId: {type: DataTypes.INTEGER},
-});
-
-export default PurchaseItem;

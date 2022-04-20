@@ -1,36 +1,55 @@
 import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  AllowNull,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  HasMany,
   Model,
-} from 'sequelize';
-import sequelize from '../db';
+  Table,
+  Unique,
+} from 'sequelize-typescript';
+import {Brand} from './Brand';
+import {CartItem} from './CartItem';
+import {Category} from './Category';
+import {ProductInfo} from './ProductInfo';
+import {PurchaseItem} from './PurchaseItem';
+import {Rating} from './Rating';
 
-export interface ProductModel
-  extends Model<
-    InferAttributes<ProductModel>,
-    InferCreationAttributes<ProductModel>
-  > {
-  id: CreationOptional<number>;
-  name: string;
-  price: number;
-  rating: CreationOptional<number>;
-  img: string;
+@Table
+export class Product extends Model {
+  @Unique
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public name!: string;
 
-  brandId: number;
-  categoryId: number;
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  public price!: number;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public img!: string;
+
+  @Default(0)
+  @Column(DataType.INTEGER)
+  public rating!: number;
+
+  @ForeignKey(() => Brand)
+  public brandId!: number;
+
+  @ForeignKey(() => Category)
+  public categoryId!: number;
+
+  @HasMany(() => Rating)
+  public ratings!: Rating[];
+
+  @HasMany(() => CartItem)
+  public cartItems!: CartItem[];
+
+  @HasMany(() => ProductInfo)
+  public info!: ProductInfo[];
+
+  @HasMany(() => PurchaseItem)
+  public purchaseItems!: PurchaseItem[];
 }
-
-const Product = sequelize.define<ProductModel>('product', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  name: {type: DataTypes.STRING, unique: true, allowNull: false},
-  price: {type: DataTypes.INTEGER, allowNull: false},
-  rating: {type: DataTypes.INTEGER, defaultValue: 0},
-  img: {type: DataTypes.STRING, allowNull: false},
-
-  brandId: {type: DataTypes.INTEGER},
-  categoryId: {type: DataTypes.INTEGER},
-});
-
-export default Product;

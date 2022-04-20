@@ -1,28 +1,12 @@
-import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-} from 'sequelize';
-import sequelize from '../db';
+import {ForeignKey, Model, Table} from 'sequelize-typescript';
+import {Brand} from './Brand';
+import {Category} from './Category';
 
-interface CategoryBrandModel
-  extends Model<
-    InferAttributes<CategoryBrandModel>,
-    InferCreationAttributes<CategoryBrandModel>
-  > {
-  id: CreationOptional<number>;
+@Table
+export class CategoryBrand extends Model {
+  @ForeignKey(() => Category)
+  public categoryId!: number;
 
-  brandId: number;
-  categoryId: number;
+  @ForeignKey(() => Brand)
+  public brandId!: number;
 }
-
-const CategoryBrand = sequelize.define<CategoryBrandModel>('category_brand', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-
-  brandId: {type: DataTypes.INTEGER},
-  categoryId: {type: DataTypes.INTEGER},
-});
-
-export default CategoryBrand;

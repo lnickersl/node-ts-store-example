@@ -1,31 +1,37 @@
 import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  AllowNull,
+  Column,
+  DataType,
+  Default,
+  HasOne,
+  IsEmail,
   Model,
-} from 'sequelize';
-import sequelize from '../db';
+  Table,
+  Unique,
+} from 'sequelize-typescript';
 import {EUserRole} from '../enums/EUserRole';
+import {Cart} from './Cart';
 
-export interface UserModel
-  extends Model<
-    InferAttributes<UserModel>,
-    InferCreationAttributes<UserModel>
-  > {
-  id: CreationOptional<number>;
-  name: string;
-  email: string;
-  password: string;
-  role: EUserRole;
+@Table
+export class User extends Model {
+  @IsEmail
+  @Unique
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public email!: string;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public password!: string;
+
+  @Default(EUserRole.User)
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public role!: EUserRole;
+
+  @Column(DataType.STRING)
+  public name!: string;
+
+  @HasOne(() => Cart)
+  public cart!: Cart;
 }
-
-const User = sequelize.define<UserModel>('user', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  email: {type: DataTypes.STRING, unique: true, validate: {isEmail: true}},
-  password: {type: DataTypes.STRING},
-  role: {type: DataTypes.STRING, defaultValue: EUserRole.User},
-  name: {type: DataTypes.STRING},
-});
-
-export default User;

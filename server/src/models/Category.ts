@@ -1,24 +1,27 @@
 import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
+  AllowNull,
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
   Model,
-} from 'sequelize';
-import sequelize from '../db';
+  Table,
+  Unique,
+} from 'sequelize-typescript';
+import {Brand} from './Brand';
+import {CategoryBrand} from './CategoryBrand';
+import {Product} from './Product';
 
-interface CategoryModel
-  extends Model<
-    InferAttributes<CategoryModel>,
-    InferCreationAttributes<CategoryModel>
-  > {
-  id: CreationOptional<number>;
-  name: string;
+@Table
+export class Category extends Model {
+  @Unique
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public name!: string;
+
+  @BelongsToMany(() => Brand, () => CategoryBrand)
+  public brands!: Brand[];
+
+  @HasMany(() => Product)
+  public products!: Product[];
 }
-
-const Category = sequelize.define<CategoryModel>('category', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  name: {type: DataTypes.STRING, unique: true, allowNull: false},
-});
-
-export default Category;

@@ -1,28 +1,12 @@
-import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-} from 'sequelize';
-import sequelize from '../db';
+import {ForeignKey, Model, Table} from 'sequelize-typescript';
+import {Product} from './Product';
+import {User} from './User';
 
-interface RatingModel
-  extends Model<
-    InferAttributes<RatingModel>,
-    InferCreationAttributes<RatingModel>
-  > {
-  id: CreationOptional<number>;
+@Table
+export class Rating extends Model {
+  @ForeignKey(() => Product)
+  public productId!: number;
 
-  productId: number;
-  userId: number;
+  @ForeignKey(() => User)
+  public userId!: number;
 }
-
-const Rating = sequelize.define<RatingModel>('rating', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-
-  productId: {type: DataTypes.INTEGER},
-  userId: {type: DataTypes.INTEGER},
-});
-
-export default Rating;

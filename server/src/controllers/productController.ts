@@ -3,8 +3,8 @@ import * as uuid from 'uuid';
 import {ApiError} from '../errors/ApiError';
 import * as fs from 'fs';
 import resolveStatic from '../helpers/resolveStatic';
-import ProductInfo from '../models/ProductInfo';
-import Product, {ProductModel} from '../models/Product';
+import {ProductInfo} from '../models/ProductInfo';
+import {Product} from '../models/Product';
 
 class ProductController {
   public create: RequestHandler = async (req, res, next) => {
@@ -27,7 +27,7 @@ class ProductController {
 
     img?.mv(filePath);
 
-    let product: ProductModel;
+    let product: Product;
 
     try {
       product = await Product.create({
@@ -43,12 +43,11 @@ class ProductController {
     }
 
     if (info) {
-      const infoArray: {description: string; title: string}[] =
-        JSON.parse(info);
+      const infoArray: ProductInfo[] = JSON.parse(info);
       infoArray.forEach(info => {
         ProductInfo.create({
-          title: info.title,
-          description: info.description,
+          key: info.key,
+          value: info.value,
           productId: product.id,
         });
       });
@@ -88,7 +87,7 @@ class ProductController {
 
     const product = await Product.findOne({
       where: {id},
-      include: [{model: ProductInfo, as: 'info'}],
+      include: ProductInfo,
     });
 
     res.json(product);
