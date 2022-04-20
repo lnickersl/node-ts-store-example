@@ -20,4 +20,6 @@ router.delete(
 
 router.get('/', controllerErrorCatch(categoryController.getAll));
 
+router.get('/:id', controllerErrorCatch(categoryController.getOne));
+
 export default router;

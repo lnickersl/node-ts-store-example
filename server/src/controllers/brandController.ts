@@ -1,6 +1,7 @@
 import {RequestHandler} from 'express';
 import {ApiError} from '../errors/ApiError';
-import Brand from '../models/Brand';
+import {Brand} from '../models/Brand';
+import {Category} from '../models/Category';
 
 class BrandController {
   public create: RequestHandler = async (req, res, next) => {
@@ -11,6 +12,7 @@ class BrandController {
     }
 
     const brand = await Brand.create({name});
+
     return res.json(brand);
   };
 
@@ -20,14 +22,26 @@ class BrandController {
     return res.json(brands);
   };
 
-  public delete: RequestHandler = async (req, res, next) => {
-    const {name} = req.body;
+  public getOne: RequestHandler = async (req, res, next) => {
+    const {id} = req.params;
 
-    if (!name) {
-      return next(ApiError.badRequest('Не указано имя брэнда'));
+    if (!id) {
+      return next(ApiError.badRequest('Не указан ID'));
     }
 
-    const result = await Brand.destroy({where: {name}});
+    const brand = await Brand.findOne({where: {id}, include: Category});
+
+    res.json(brand);
+  };
+
+  public delete: RequestHandler = async (req, res, next) => {
+    const {id} = req.body;
+
+    if (id === undefined) {
+      return next(ApiError.badRequest('Не указан ID брэнда'));
+    }
+
+    const result = await Brand.destroy({where: {id}});
 
     return res.json(result);
   };
