@@ -31,10 +31,6 @@ export class Product extends Model {
   @Column(DataType.STRING)
   public img!: string;
 
-  @Default(0)
-  @Column(DataType.INTEGER)
-  public rating!: number;
-
   @ForeignKey(() => Brand)
   public brandId!: number;
 

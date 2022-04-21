@@ -5,6 +5,8 @@ import * as fs from 'fs';
 import resolveStatic from '../helpers/resolveStatic';
 import {ProductInfo} from '../models/ProductInfo';
 import {Product} from '../models/Product';
+import {Rating} from '../models/Rating';
+import sequelize from '../db';
 
 class ProductController {
   public create: RequestHandler = async (req, res, next) => {
@@ -87,7 +89,20 @@ class ProductController {
 
     const product = await Product.findOne({
       where: {id},
-      include: ProductInfo,
+      include: [
+        {
+          model: Rating,
+          as: 'ratings',
+          attributes: [],
+        },
+        ProductInfo,
+      ],
+      attributes: {
+        include: [
+          [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'rating'],
+        ],
+      },
+      group: ['Product.id', 'info.id'],
     });
 
     res.json(product);

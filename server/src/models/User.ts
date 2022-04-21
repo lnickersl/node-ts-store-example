@@ -3,6 +3,7 @@ import {
   Column,
   DataType,
   Default,
+  HasMany,
   HasOne,
   IsEmail,
   Model,
@@ -11,6 +12,7 @@ import {
 } from 'sequelize-typescript';
 import {EUserRole} from '../enums/EUserRole';
 import {Cart} from './Cart';
+import {Rating} from './Rating';
 
 @Table
 export class User extends Model {
@@ -34,4 +36,7 @@ export class User extends Model {
 
   @HasOne(() => Cart)
   public cart!: Cart;
+
+  @HasMany(() => Rating)
+  public ratings!: Rating[];
 }
