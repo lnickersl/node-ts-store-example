@@ -31,7 +31,7 @@ class BrandController {
 
     const brand = await Brand.findOne({where: {id}, include: Category});
 
-    res.json(brand);
+    return res.json(brand);
   };
 
   public delete: RequestHandler = async (req, res, next) => {
