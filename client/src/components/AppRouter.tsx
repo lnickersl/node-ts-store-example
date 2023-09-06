@@ -13,7 +13,6 @@ const AppRouter = () => {
     const auth = authRoutes.map(({path, Component}) => (
       <Route key={path} path={path} element={<Component />} />
     ));
-    //111
 
     routes.push(...auth);
   }
