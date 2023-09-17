@@ -1,10 +1,4 @@
-import {ICategory} from './ICategory';
-import {IProduct} from './IProduct';
-
 export interface IBrand {
+  id: number;
   name: string;
-
-  categories: ICategory[];
-
-  products: IProduct[];
 }
