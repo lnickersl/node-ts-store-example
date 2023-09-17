@@ -4,12 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import UserStore from './store/UserStore';
+import ProductStore from './store/ProductStore';
 
 const userStore = new UserStore();
+const productStore = new ProductStore();
 
-export const UserContext = createContext<{user: UserStore}>({
+const context = {
   user: userStore,
-});
+  product: productStore,
+};
+
+export const Context = createContext(context);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,9 +22,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <UserContext.Provider value={{user: userStore}}>
+    <Context.Provider value={context}>
       <App />
-    </UserContext.Provider>
+    </Context.Provider>
   </React.StrictMode>
 );
 

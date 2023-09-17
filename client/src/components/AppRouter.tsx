@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import {Routes, Route} from 'react-router-dom';
 import {authRoutes, publicRoutes} from '../routes';
-import {UserContext} from '..';
+import {Context} from '..';
 
 const AppRouter = () => {
-  const {user} = useContext(UserContext);
+  const {user} = useContext(Context);
 
   console.log(user);
 
