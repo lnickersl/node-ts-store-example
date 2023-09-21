@@ -7,6 +7,10 @@ export class ApiError extends Error {
     this.message = message;
   }
 
+  public static unauthorized(message: string) {
+    return new ApiError(401, message);
+  }
+
   public static forbidden(message: string) {
     return new ApiError(403, message);
   }

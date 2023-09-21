@@ -32,14 +32,14 @@ class UserController {
     const {email, password, role, name = ''} = req.body;
 
     if (!email || !password) {
-      return next(ApiError.badRequest('Не указаны почта и/или пароль'));
+      return next(ApiError.unauthorized('Не указаны почта и/или пароль'));
     }
 
     const foundUser = await User.findOne({where: {email}});
 
     if (foundUser) {
       return next(
-        ApiError.badRequest('Пользователь с такой почтой уже существует')
+        ApiError.unauthorized('Пользователь с такой почтой уже существует')
       );
     }
 
@@ -66,14 +66,14 @@ class UserController {
 
     if (!user) {
       return next(
-        ApiError.badRequest('Пользователя с таким email не существует')
+        ApiError.unauthorized('Пользователя с таким email не существует')
       );
     }
 
     const isSame = bcrypt.compareSync(password, user.password);
 
     if (!isSame) {
-      return next(ApiError.badRequest('Неверный пароль'));
+      return next(ApiError.unauthorized('Неверный пароль'));
     }
 
     const token = generateJwt(user.id, user.email, user.role);
