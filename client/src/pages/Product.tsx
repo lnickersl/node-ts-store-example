@@ -30,7 +30,9 @@ const Product = () => {
         </Col>
         <Col md={4}>
           <Row className="d-flex flex-column align-items-center">
-            <h2>{product.name}</h2>
+            <h2>
+              {id} {product.name}
+            </h2>
             <div
               className="d-flex align-items-center justify-content-center"
               style={{

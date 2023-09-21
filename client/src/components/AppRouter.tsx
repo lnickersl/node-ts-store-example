@@ -6,8 +6,6 @@ import {Context} from '..';
 const AppRouter = () => {
   const {user} = useContext(Context);
 
-  console.log(user);
-
   const routes = publicRoutes.map(({path, Component}) => (
     <Route key={path} path={path} element={<Component />} />
   ));

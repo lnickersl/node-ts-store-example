@@ -1,7 +1,41 @@
-import React from 'react';
+import React, {PropsWithChildren, useState} from 'react';
+import {Button, ButtonProps, Container} from 'react-bootstrap';
+import CreateBrand from '../components/modals/CreateBrand';
+import CreateCategory from '../components/modals/CreateCategory';
+import CreateProduct from '../components/modals/CreateProduct';
+
+const AdminButton = (props: PropsWithChildren<ButtonProps>) => (
+  <Button {...props} variant={'outline-dark'} className="mt-3 p-3">
+    {props.children}
+  </Button>
+);
 
 const Admin = () => {
-  return <div>ADMIN</div>;
+  const [brandVisible, setBrandVisible] = useState(false);
+  const [categoryVisible, setCategoryVisible] = useState(false);
+  const [productVisible, setProductVisible] = useState(false);
+  return (
+    <Container className="d-flex flex-column">
+      <AdminButton onClick={() => setBrandVisible(true)}>
+        Добавить бренд
+      </AdminButton>
+      <AdminButton onClick={() => setCategoryVisible(true)}>
+        Добавить категорию
+      </AdminButton>
+      <AdminButton onClick={() => setProductVisible(true)}>
+        Добавить товар
+      </AdminButton>
+      <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)} />
+      <CreateCategory
+        show={categoryVisible}
+        onHide={() => setCategoryVisible(false)}
+      />
+      <CreateProduct
+        show={productVisible}
+        onHide={() => setProductVisible(false)}
+      />
+    </Container>
+  );
 };
 
 export default Admin;
