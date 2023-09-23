@@ -1,5 +1,7 @@
-import React from 'react';
-import {Button, Form, Modal} from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Form} from 'react-bootstrap';
+import {createCategory} from '../../http/categoryAPI';
+import AdminCreate from './AdminCreate';
 
 const CreateCategory = ({
   show,
@@ -8,33 +10,22 @@ const CreateCategory = ({
   show: boolean;
   onHide: () => void;
 }) => {
+  const [name, setName] = useState('');
+
   return (
-    <Modal
+    <AdminCreate
       show={show}
       onHide={onHide}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
+      onCreate={() => createCategory({name})}
+      title={'Добавить новую категорию'}
     >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Добавить новую категорию
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form.Control placeholder="Введите название категории"></Form.Control>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="outline-danger" onClick={onHide}>
-          Закрыть
-        </Button>
-        <Button variant="outline-success" onClick={onHide}>
-          Добавить
-        </Button>
-      </Modal.Footer>
-    </Modal>
+      <Form>
+        <Form.Control
+          onChange={e => setName(e.target.value)}
+          placeholder="Введите название категории"
+        ></Form.Control>
+      </Form>
+    </AdminCreate>
   );
 };
 

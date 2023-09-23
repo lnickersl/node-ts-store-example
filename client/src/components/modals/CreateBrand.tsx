@@ -1,34 +1,25 @@
-import React from 'react';
-import {Button, Form, Modal} from 'react-bootstrap';
+import React, {useState} from 'react';
+import {Form} from 'react-bootstrap';
+import {createBrand} from '../../http/brandAPI';
+import AdminCreate from './AdminCreate';
 
 const CreateBrand = ({show, onHide}: {show: boolean; onHide: () => void}) => {
+  const [name, setName] = useState('');
+
   return (
-    <Modal
+    <AdminCreate
       show={show}
       onHide={onHide}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
+      onCreate={() => createBrand({name})}
+      title={'Добавить новый брэнд'}
     >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Добавить новый брэнд
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
-          <Form.Control placeholder="Введите название брэнда"></Form.Control>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="outline-danger" onClick={onHide}>
-          Закрыть
-        </Button>
-        <Button variant="outline-success" onClick={onHide}>
-          Добавить
-        </Button>
-      </Modal.Footer>
-    </Modal>
+      <Form>
+        <Form.Control
+          onChange={e => setName(e.target.value)}
+          placeholder="Введите название брэнда"
+        ></Form.Control>
+      </Form>
+    </AdminCreate>
   );
 };
 
