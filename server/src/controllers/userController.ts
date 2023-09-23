@@ -5,8 +5,15 @@ import {ApiError} from '../errors/ApiError';
 import {User} from '../models/User';
 import {Cart} from '../models/Cart';
 import {EUserRole} from '../enums/EUserRole';
+
+export interface IUserData {
+  id: number;
+  email: string;
+  role: EUserRole;
+}
 export interface IUserRequest extends Request {
-  user?: any;
+  user?: IUserData;
+  jwtError?: string;
 }
 
 function generateJwt(id: number, email: string, role: EUserRole) {
@@ -82,7 +89,7 @@ class UserController {
   };
 
   public async auth(req: IUserRequest, res: Response) {
-    const {id, email, role} = req.user;
+    const {id, email, role} = req.user!;
 
     const token = generateJwt(id, email, role);
 

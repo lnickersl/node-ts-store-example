@@ -1,19 +1,22 @@
 import {NextFunction, Response} from 'express';
 import * as jwt from 'jsonwebtoken';
-import {IUserRequest} from '../controllers/userController';
+import {IUserData, IUserRequest} from '../controllers/userController';
+import {ApiError} from '../errors/ApiError';
 
 export default function (req: IUserRequest, res: Response, next: NextFunction) {
-  let decodedUser: any;
   try {
     const token = req?.headers?.authorization?.split(' ')[1];
 
-    if (!token) throw 'Нет токена';
+    if (!token) throw Error('Нет токена');
 
-    decodedUser = jwt.verify(token, process.env.SECRET_KEY!);
+    req.user = jwt.verify(token, process.env.SECRET_KEY!) as IUserData;
   } catch (err) {
-    decodedUser = null;
+    let error = 'Ошибка токена';
+
+    if (err instanceof Error) error = err.message;
+
+    req.jwtError = error;
   }
 
-  req.user = decodedUser;
   next();
 }

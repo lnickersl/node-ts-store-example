@@ -7,7 +7,7 @@ import {IUserRequest} from './userController';
 
 class CartItemController {
   public async create(req: IUserRequest, res: Response, next: NextFunction) {
-    const userId = req.user.id!;
+    const userId = req.user!.id;
     const {productId} = req.body;
 
     if (isNaN(productId)) {
@@ -31,7 +31,7 @@ class CartItemController {
   }
 
   public async getAll(req: IUserRequest, res: Response, next: NextFunction) {
-    const userId = req.user.id!;
+    const userId = req.user!.id;
 
     const cart = await Cart.findOne({
       where: {userId},
@@ -51,7 +51,7 @@ class CartItemController {
   }
 
   public async delete(req: IUserRequest, res: Response, next: NextFunction) {
-    const userId = req.user.id!;
+    const userId = req.user!.id;
     const {productId} = req.body;
 
     if (isNaN(productId)) {

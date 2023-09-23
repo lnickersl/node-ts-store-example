@@ -9,7 +9,11 @@ export default function authMiddleware(role?: EUserRole) {
     }
 
     if (!req.user) {
-      return res.status(401).json({message: 'Пользователь не авторизован'});
+      let message = 'Пользователь не авторизован';
+
+      if (req.jwtError) message = req.jwtError;
+
+      return res.status(401).json({message});
     }
 
     if (role && req.user.role !== role) {
