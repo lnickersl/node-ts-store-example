@@ -3,7 +3,7 @@ import {IUser} from '../types/IUser';
 import {EUserRole} from '../enums/EUserRole';
 
 export default class UserStore {
-  public _isAuth = true;
+  public _isAuth = false;
   public _user: IUser | null = {
     email: 'world@email.com',
 
@@ -25,7 +25,7 @@ export default class UserStore {
     this._isAuth = isAuth;
   }
 
-  public setUser(user: IUser) {
+  public setUser(user: IUser | null) {
     this._user = user;
   }
 
