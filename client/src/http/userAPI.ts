@@ -1,3 +1,4 @@
+import {EUserRole} from '../enums/EUserRole';
 import {IUser} from '../types/IUser';
 import {$authHost, $host} from './index';
 import jwtDecode from 'jwt-decode';
@@ -6,7 +7,7 @@ export const registration = async (email: string, password: string) => {
   const {data} = await $host.post('api/user/registration', {
     email,
     password,
-    role: 'ADMIN',
+    role: EUserRole.Admin,
   });
 
   if (!data.token) throw Error('No token');

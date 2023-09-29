@@ -1,21 +1,9 @@
 import {makeAutoObservable} from 'mobx';
 import {IUser} from '../types/IUser';
-import {EUserRole} from '../enums/EUserRole';
 
 export default class UserStore {
   public _isAuth = false;
-  public _user: IUser | null = {
-    email: 'world@email.com',
-
-    password: 'BEM',
-
-    role: EUserRole.Admin,
-
-    name: 'MEM',
-
-    cart: {userId: 1, items: []},
-    ratings: [],
-  };
+  public _user: IUser | null = null;
 
   constructor() {
     makeAutoObservable(this);

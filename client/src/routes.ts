@@ -1,3 +1,4 @@
+import {EUserRole} from './enums/EUserRole';
 import Admin from './pages/Admin';
 import Auth from './pages/Auth';
 import Cart from './pages/Cart';
@@ -14,6 +15,7 @@ import {
 
 export const authRoutes = [
   {
+    roles: [EUserRole.Admin],
     path: ADMIN_ROUTE,
     Component: Admin,
   },

@@ -1,22 +1,26 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import {authRoutes, publicRoutes} from '../routes';
-import {Context} from '..';
+import {ProtectedRoute} from './ProtectedRoute';
 
 const AppRouter = () => {
-  const {user} = useContext(Context);
-
   const routes = publicRoutes.map(({path, Component}) => (
     <Route key={path} path={path} element={<Component />} />
   ));
 
-  if (user.isAuth) {
-    const auth = authRoutes.map(({path, Component}) => (
-      <Route key={path} path={path} element={<Component />} />
-    ));
+  const auth = authRoutes.map(({path, roles, Component}) => (
+    <Route
+      key={path}
+      path={path}
+      element={
+        <ProtectedRoute roles={roles}>
+          <Component />
+        </ProtectedRoute>
+      }
+    />
+  ));
 
-    routes.push(...auth);
-  }
+  routes.push(...auth);
 
   return <Routes>{routes}</Routes>;
 };
