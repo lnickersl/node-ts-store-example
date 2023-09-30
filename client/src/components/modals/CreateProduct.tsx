@@ -15,10 +15,11 @@ const CreateProduct = observer(
     const {product} = useContext(Context);
 
     const [name, setName] = useState('');
+    const [price, setPrice] = useState<number>(0);
+
     const [imgFile, setImgFile] = useState<File>();
     const [selectedBrand, setSelectedBrand] = useState<IBrand>();
     const [selectedCategory, setSelectedCategory] = useState<ICategory>();
-    const [price, setPrice] = useState<number>();
     const [info, setInfo] = useState<Partial<IProductInfo>[]>([]);
 
     const addInfo = () => {
