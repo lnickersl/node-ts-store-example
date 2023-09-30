@@ -1,19 +1,20 @@
 import {EUserRole} from '../enums/EUserRole';
-import {IUser} from '../types/IUser';
 import {$authHost, $host} from './index';
-import jwtDecode from 'jwt-decode';
 
-export const registration = async (email: string, password: string) => {
+export const registration = async (
+  email: string,
+  password: string,
+  role: EUserRole
+) => {
   const {data} = await $host.post('api/user/registration', {
     email,
     password,
-    role: EUserRole.Admin,
+    role,
   });
 
-  if (!data.token) throw Error('No token');
+  if (!data?.token) throw Error('No token');
 
-  localStorage.setItem('token', data.token);
-  return jwtDecode<IUser>(data.token);
+  return data.token;
 };
 
 export const login = async (email: string, password: string) => {
@@ -22,10 +23,9 @@ export const login = async (email: string, password: string) => {
     password,
   });
 
-  if (!data.token) throw Error('No token');
+  if (!data?.token) throw Error('No token');
 
-  localStorage.setItem('token', data.token);
-  return jwtDecode<IUser>(data.token);
+  return data.token;
 };
 
 export const check = async () => {
@@ -33,5 +33,5 @@ export const check = async () => {
 
   if (!data?.token) throw Error('No token');
 
-  return jwtDecode<IUser>(data.token);
+  return data.token;
 };

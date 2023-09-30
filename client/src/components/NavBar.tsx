@@ -1,4 +1,4 @@
-import {Context} from '..';
+import {AuthContext} from '..';
 import {observer} from 'mobx-react-lite';
 import {Button, Container, Nav, Navbar} from 'react-bootstrap';
 import React, {useContext} from 'react';
@@ -7,15 +7,8 @@ import {ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE} from '../utils/consts';
 import {EUserRole} from '../enums/EUserRole';
 
 const NavBar = observer(() => {
-  const {user} = useContext(Context);
+  const auth = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const logOut = () => {
-    user.setUser(null);
-    user.setIsAuth(false);
-    localStorage.removeItem('token');
-    navigate(LOGIN_ROUTE);
-  };
 
   return (
     <Navbar bg="dark" data-bs-theme="dark">
@@ -24,7 +17,7 @@ const NavBar = observer(() => {
           Shop
         </NavLink>
         <Nav className="ml-auto" style={{color: 'white'}}>
-          {user.isAuth && user?.user?.role === EUserRole.Admin ? (
+          {auth?.user && auth?.user?.role === EUserRole.Admin ? (
             <Button
               variant={'outline-light'}
               onClick={() => navigate(ADMIN_ROUTE)}
@@ -34,11 +27,11 @@ const NavBar = observer(() => {
           ) : (
             ''
           )}
-          {user.isAuth ? (
+          {auth?.user ? (
             <Button
               className="ms-3"
               variant={'outline-light'}
-              onClick={() => logOut()}
+              onClick={() => auth.onLogout()}
             >
               Выйти
             </Button>

@@ -2,41 +2,49 @@ import React, {useContext, useState} from 'react';
 import {Button, Card, Col, Form, Row} from 'react-bootstrap';
 import {NavLink, useLocation, useNavigate} from 'react-router-dom';
 import {LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE} from '../utils/consts';
-import {login, registration} from '../http/userAPI';
 import {observer} from 'mobx-react-lite';
-import {Context} from '..';
+import {AuthContext} from '..';
+import {EUserRole} from '../enums/EUserRole';
 
 const Auth = observer(() => {
   const navigate = useNavigate();
   const location = useLocation();
   const isLogin = location.pathname === LOGIN_ROUTE;
 
-  const {user} = useContext(Context);
+  const auth = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const signIn = async () => {
+  const signIn = () => {
     setErrorMsg('');
 
-    const auth = isLogin ? login : registration;
+    if (!auth) {
+      setErrorMsg('Отсутсвует контекст авторизации!');
+      return;
+    }
 
-    const userData = await auth(email, password).catch(err => {
-      console.error(err);
+    const {onLogin, onRegistration} = auth;
 
-      const error = err?.response?.data?.message;
+    const authPromise = isLogin
+      ? onLogin(email, password)
+      : onRegistration(email, password, EUserRole.Admin);
 
-      if (error) {
-        setErrorMsg(error.toString());
-      }
-    });
+    authPromise
+      .then(() => {
+        const origin = location.state?.from?.pathname || SHOP_ROUTE;
+        navigate(origin);
+      })
+      .catch(err => {
+        console.error(err);
 
-    if (!userData) return;
+        const error = err?.response?.data?.message;
 
-    user.setUser(userData);
-    user.setIsAuth(true);
-    navigate(SHOP_ROUTE);
+        if (error) {
+          setErrorMsg(error.toString());
+        }
+      });
   };
 
   return (
