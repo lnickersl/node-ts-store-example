@@ -29,7 +29,7 @@ function AdminCreate<T>({
         const error = err?.response?.data?.message;
 
         setSuccess(false);
-        setMessage(error.toString() || 'Ошибка!');
+        setMessage(error?.toString() || 'Ошибка!');
       });
   };
 

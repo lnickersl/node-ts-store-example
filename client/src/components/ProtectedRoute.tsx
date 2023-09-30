@@ -1,7 +1,7 @@
 import React, {ReactElement, useContext} from 'react';
-import {Context} from '..';
-import {Navigate} from 'react-router-dom';
-import {SHOP_ROUTE} from '../utils/consts';
+import {AuthContext} from '..';
+import {Navigate, useLocation} from 'react-router-dom';
+import {LOGIN_ROUTE, SHOP_ROUTE} from '../utils/consts';
 import {EUserRole} from '../enums/EUserRole';
 
 export const ProtectedRoute = ({
@@ -11,12 +11,14 @@ export const ProtectedRoute = ({
   children: ReactElement;
   roles?: EUserRole[];
 }): ReactElement => {
-  const {user} = useContext(Context);
+  const auth = useContext(AuthContext);
+  const location = useLocation();
 
-  if (
-    !user.isAuth ||
-    (Array.isArray(roles) && !roles.some(role => role === user.user?.role))
-  ) {
+  if (!auth?.user) {
+    return <Navigate to={LOGIN_ROUTE} replace state={{from: location}} />;
+  }
+
+  if (Array.isArray(roles) && !roles.some(role => role === auth?.user?.role)) {
     return <Navigate to={SHOP_ROUTE} replace />;
   }
 
