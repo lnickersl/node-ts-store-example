@@ -46,6 +46,7 @@ class ProductController {
 
     if (info) {
       const infoArray: ProductInfo[] = JSON.parse(info);
+
       infoArray.forEach(info => {
         ProductInfo.create({
           key: info.key,
