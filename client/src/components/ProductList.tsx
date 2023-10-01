@@ -1,14 +1,14 @@
 import React, {useContext} from 'react';
 import {observer} from 'mobx-react-lite';
-import {Context} from '..';
+import {ProductContext} from '..';
 import {Row} from 'react-bootstrap';
 import ProductItem from './ProductItem';
 
 const ProductList = observer(() => {
-  const {product} = useContext(Context);
+  const productStore = useContext(ProductContext);
   return (
     <Row className="d-flex">
-      {product.products.map(product => (
+      {productStore.products.map(product => (
         <ProductItem key={product.id} product={product} />
       ))}
     </Row>

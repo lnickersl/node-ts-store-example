@@ -8,13 +8,9 @@ import {AuthProvider, IAuthContext} from './components/AuthProvider';
 
 const productStore = new ProductStore();
 
-const context = {
-  product: productStore,
-};
-
 export const AuthContext = createContext<IAuthContext | null>(null);
 
-export const Context = createContext(context);
+export const ProductContext = createContext(productStore);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -23,9 +19,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <Context.Provider value={context}>
+      <ProductContext.Provider value={productStore}>
         <App />
-      </Context.Provider>
+      </ProductContext.Provider>
     </AuthProvider>
   </React.StrictMode>
 );

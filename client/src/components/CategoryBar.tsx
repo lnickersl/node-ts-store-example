@@ -1,18 +1,18 @@
 import {observer} from 'mobx-react-lite';
 import React, {useContext} from 'react';
-import {Context} from '..';
+import {ProductContext} from '..';
 import {ListGroup} from 'react-bootstrap';
 
 const CategoryBar = observer(() => {
-  const {product} = useContext(Context);
+  const productStore = useContext(ProductContext);
   return (
     <ListGroup>
-      {(product?.categories || []).map(category => (
+      {(productStore?.categories || []).map(category => (
         <ListGroup.Item
           style={{cursor: 'pointer'}}
-          active={category.id === product?.selectedCategory?.id}
+          active={category.id === productStore?.selectedCategory?.id}
           key={category.id}
-          onClick={() => product.selectCategory(category)}
+          onClick={() => productStore.selectCategory(category)}
         >
           {category.name}
         </ListGroup.Item>

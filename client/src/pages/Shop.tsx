@@ -4,18 +4,18 @@ import CategoryBar from '../components/CategoryBar';
 import BrandBar from '../components/BrandBar';
 import ProductList from '../components/ProductList';
 import {observer} from 'mobx-react-lite';
-import {Context} from '..';
+import {ProductContext} from '..';
 import {fetchCategories} from '../http/categoryAPI';
 import {fetchBrands} from '../http/brandAPI';
 import {fetchProducts} from '../http/productAPI';
 
 const Shop = observer(() => {
-  const {product} = useContext(Context);
+  const productStore = useContext(ProductContext);
 
   useEffect(() => {
-    fetchCategories().then(data => product.setCategories(data));
-    fetchBrands().then(data => product.setBrands(data));
-    fetchProducts().then(data => product.setProducts(data));
+    fetchCategories().then(data => productStore.setCategories(data));
+    fetchBrands().then(data => productStore.setBrands(data));
+    fetchProducts().then(data => productStore.setProducts(data));
   }, []);
 
   return (

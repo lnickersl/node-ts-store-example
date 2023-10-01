@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Col, Dropdown, Form, Image, Row} from 'react-bootstrap';
-import {Context} from '../..';
+import {ProductContext} from '../..';
 import {IProductInfo} from '../../types/IProductInfo';
 import AdminCreate from './AdminCreate';
 import {createProduct} from '../../http/productAPI';
@@ -12,7 +12,7 @@ import {observer} from 'mobx-react-lite';
 
 const CreateProduct = observer(
   ({show, onHide}: {show: boolean; onHide: () => void}) => {
-    const {product} = useContext(Context);
+    const productStore = useContext(ProductContext);
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState<number>(0);
@@ -63,8 +63,8 @@ const CreateProduct = observer(
     };
 
     useEffect(() => {
-      fetchCategories().then(data => product.setCategories(data));
-      fetchBrands().then(data => product.setBrands(data));
+      fetchCategories().then(data => productStore.setCategories(data));
+      fetchBrands().then(data => productStore.setBrands(data));
     }, []);
 
     return (
@@ -80,7 +80,7 @@ const CreateProduct = observer(
               {selectedCategory?.name || 'Выберите категорию'}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              {product.categories.map(category => (
+              {productStore.categories.map(category => (
                 <Dropdown.Item
                   onClick={() => setSelectedCategory(category)}
                   key={category.id}
@@ -95,7 +95,7 @@ const CreateProduct = observer(
               {selectedBrand?.name || 'Выбрать брэнд'}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              {product.brands.map(brand => (
+              {productStore.brands.map(brand => (
                 <Dropdown.Item
                   onClick={() => setSelectedBrand(brand)}
                   key={brand.id}
