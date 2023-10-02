@@ -11,7 +11,6 @@ import {Product} from './Product';
 
 @Table
 export class ProductInfo extends Model {
-  @Unique
   @AllowNull(false)
   @Column(DataType.STRING)
   public key!: string;
