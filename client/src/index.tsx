@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ProductStore from './store/ProductStore';
 import {AuthProvider, IAuthContext} from './components/AuthProvider';
+import {QueryClientProvider, QueryClient} from 'react-query';
 
 const productStore = new ProductStore();
 
@@ -20,7 +21,9 @@ root.render(
   <React.StrictMode>
     <AuthProvider>
       <ProductContext.Provider value={productStore}>
-        <App />
+        <QueryClientProvider client={new QueryClient()}>
+          <App />
+        </QueryClientProvider>
       </ProductContext.Provider>
     </AuthProvider>
   </React.StrictMode>
