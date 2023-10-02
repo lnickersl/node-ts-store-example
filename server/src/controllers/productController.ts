@@ -7,6 +7,8 @@ import {ProductInfo} from '../models/ProductInfo';
 import {Product} from '../models/Product';
 import {Rating} from '../models/Rating';
 import sequelize from '../db';
+import {Category} from '../models/Category';
+import {Brand} from '../models/Brand';
 
 class ProductController {
   public create: RequestHandler = async (req, res, next) => {
@@ -88,23 +90,26 @@ class ProductController {
       return next(ApiError.badRequest('Не указан ID'));
     }
 
-    const product = await Product.findOne({
-      where: {id},
-      include: [
-        {
-          model: Rating,
-          as: 'ratings',
-          attributes: [],
-        },
-        ProductInfo,
-      ],
-      attributes: {
+    let product;
+    try {
+      product = await Product.findOne({
+        where: {id},
         include: [
-          [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'rating'],
+          {model: Rating, attributes: []},
+          Category,
+          Brand,
+          ProductInfo,
         ],
-      },
-      group: ['Product.id', 'info.id'],
-    });
+        attributes: {
+          include: [
+            [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'rating'],
+          ],
+        },
+        group: ['Product.id', 'category.id', 'brand.id', 'info.id'],
+      }).catch(console.error);
+    } catch (err) {
+      console.log(err);
+    }
 
     res.json(product);
   };
