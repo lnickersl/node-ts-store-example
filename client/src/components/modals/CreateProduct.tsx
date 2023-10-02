@@ -59,7 +59,7 @@ const CreateProduct = observer(
       formData.append('img', imgFile as Blob);
       formData.append('info', JSON.stringify(info));
 
-      return createProduct(formData).then(onHide);
+      return createProduct(formData);
     };
 
     useEffect(() => {

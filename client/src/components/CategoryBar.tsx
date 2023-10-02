@@ -9,10 +9,14 @@ const CategoryBar = observer(() => {
     <ListGroup>
       {(productStore?.categories || []).map(category => (
         <ListGroup.Item
-          style={{cursor: 'pointer'}}
+          style={{cursor: 'pointer', userSelect: 'none'}}
           active={category.id === productStore?.selectedCategory?.id}
           key={category.id}
-          onClick={() => productStore.selectCategory(category)}
+          onClick={() =>
+            productStore.selectCategory(
+              category === productStore.selectedCategory ? null : category
+            )
+          }
         >
           {category.name}
         </ListGroup.Item>

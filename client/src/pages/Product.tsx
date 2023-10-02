@@ -8,6 +8,7 @@ import {PRODUCT_IMG_ROUTE} from '../utils/consts';
 const Product = () => {
   const {id} = useParams();
   const [product, setProduct] = useState<IProduct>();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const productId = Number(id);
@@ -16,8 +17,11 @@ const Product = () => {
 
     fetchProduct(productId)
       .then(prod => setProduct(prod))
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) return <div></div>;
 
   if (!product) return <h2 color="red">Товар не найдет</h2>;
 

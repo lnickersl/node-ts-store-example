@@ -12,8 +12,12 @@ export default class ProductStore {
 
   public _products: IProduct[] = [];
 
-  private _selectedCategory: ICategory | undefined;
-  private _selectedBrand: IBrand | undefined;
+  private _selectedCategory: ICategory | null = null;
+  private _selectedBrand: IBrand | null = null;
+
+  private _page = 1;
+  private _totalCount = 0;
+  private _limit = 2;
 
   constructor() {
     makeAutoObservable(this);
@@ -31,11 +35,23 @@ export default class ProductStore {
     this._products = products;
   }
 
-  public selectCategory(category: ICategory) {
+  public setPage(page: number) {
+    this._page = page;
+  }
+
+  public setTotalCount(totalCount: number) {
+    this._totalCount = totalCount;
+  }
+
+  public setLimit(limit: number) {
+    this._limit = limit;
+  }
+
+  public selectCategory(category: ICategory | null) {
     this._selectedCategory = category;
   }
 
-  public selectBrand(brand: IBrand) {
+  public selectBrand(brand: IBrand | null) {
     this._selectedBrand = brand;
   }
 
@@ -49,6 +65,18 @@ export default class ProductStore {
 
   public get products() {
     return this._products;
+  }
+
+  public get page() {
+    return this._page;
+  }
+
+  public get totalCount() {
+    return this._totalCount;
+  }
+
+  public get limit() {
+    return this._limit;
   }
 
   public get selectedCategory() {

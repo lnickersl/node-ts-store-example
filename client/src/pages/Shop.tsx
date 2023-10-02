@@ -8,6 +8,7 @@ import {ProductContext} from '..';
 import {fetchCategories} from '../http/categoryAPI';
 import {fetchBrands} from '../http/brandAPI';
 import {fetchProducts} from '../http/productAPI';
+import Pages from '../components/Pages';
 
 const Shop = observer(() => {
   const productStore = useContext(ProductContext);
@@ -15,8 +16,29 @@ const Shop = observer(() => {
   useEffect(() => {
     fetchCategories().then(data => productStore.setCategories(data));
     fetchBrands().then(data => productStore.setBrands(data));
-    fetchProducts().then(data => productStore.setProducts(data));
   }, []);
+
+  useEffect(() => {
+    fetchProducts(
+      productStore.selectedCategory?.id,
+      productStore.selectedBrand?.id,
+      productStore.page,
+      productStore.limit
+    ).then(data => {
+      productStore.setProducts(data.rows);
+      productStore.setTotalCount(data.count);
+      console.log(data.count);
+    });
+  }, [
+    productStore.page,
+    productStore.selectedBrand,
+    productStore.selectedCategory,
+  ]);
+
+  useEffect(
+    () => productStore.setPage(1),
+    [productStore.selectedBrand, productStore.selectedCategory]
+  );
 
   return (
     <Container>
@@ -27,6 +49,7 @@ const Shop = observer(() => {
         <Col md={9}>
           <BrandBar />
           <ProductList />
+          <Pages />
         </Col>
       </Row>
     </Container>

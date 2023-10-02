@@ -10,10 +10,14 @@ const BrandBar = observer(() => {
     <Container className="d-flex flex-wrap">
       {productStore.brands.map(brand => (
         <Card
-          style={{cursor: 'pointer'}}
+          style={{cursor: 'pointer', userSelect: 'none'}}
           className="p-3 me-2 mt-2"
           key={brand.id}
-          onClick={() => productStore.selectBrand(brand)}
+          onClick={() =>
+            productStore.selectBrand(
+              brand === productStore.selectedBrand ? null : brand
+            )
+          }
           border={
             productStore.selectedBrand?.id === brand.id ? 'danger' : 'normal'
           }

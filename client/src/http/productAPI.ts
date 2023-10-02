@@ -7,12 +7,18 @@ export const createProduct = async (product: FormData) => {
   return data;
 };
 
-export const fetchProducts = async () => {
+export const fetchProducts = async (
+  categoryId: number | undefined,
+  brandId: number | undefined,
+  page: number,
+  limit = 5
+) => {
   const {data} = await $host.get<{count: number; rows: IProduct[]}>(
-    'api/product'
+    'api/product',
+    {params: {categoryId, brandId, page, limit}}
   );
 
-  return data.rows;
+  return data;
 };
 
 export const fetchProduct = async (id: number) => {
