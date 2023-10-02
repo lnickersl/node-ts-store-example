@@ -1,25 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Button, Card, Col, Container, Image, Row} from 'react-bootstrap';
 import {useParams} from 'react-router-dom';
 import {fetchProduct} from '../http/productAPI';
 import {IProduct} from '../types/IProduct';
 import {PRODUCT_IMG_ROUTE} from '../utils/consts';
+import {observer} from 'mobx-react-lite';
+import {useQuery} from 'react-query';
 
-const Product = () => {
+const Product = observer(() => {
   const {id} = useParams();
   const [product, setProduct] = useState<IProduct>();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  useQuery('product', () => {
     const productId = Number(id);
 
     if (Number.isNaN(productId)) return;
 
-    fetchProduct(productId)
+    return fetchProduct(productId)
       .then(prod => setProduct(prod))
       .catch(console.error)
       .finally(() => setIsLoading(false));
-  }, []);
+  });
 
   if (isLoading) return <div></div>;
 
@@ -27,7 +29,12 @@ const Product = () => {
 
   return (
     <Container className="mt-2">
-      <Row>
+      <Row className="align-items-center">
+        <h4 style={{textAlign: 'start'}}>{`${product?.category.name || ''} > ${
+          product?.brand.name || ''
+        }`}</h4>
+      </Row>
+      <Row className="mt-2">
         <Col md={4}>
           <Image
             width={300}
@@ -86,6 +93,6 @@ const Product = () => {
       </Row>
     </Container>
   );
-};
+});
 
 export default Product;
