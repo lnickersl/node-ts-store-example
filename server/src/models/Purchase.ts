@@ -19,6 +19,6 @@ export class Purchase extends Model {
   @ForeignKey(() => User)
   public userId!: number;
 
-  @HasMany(() => PurchaseItem)
+  @HasMany(() => PurchaseItem, {onDelete: 'CASCADE'})
   public items!: PurchaseItem[];
 }

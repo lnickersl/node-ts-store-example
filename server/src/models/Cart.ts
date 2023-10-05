@@ -7,6 +7,6 @@ export class Cart extends Model {
   @ForeignKey(() => User)
   public userId!: number;
 
-  @HasMany(() => CartItem)
+  @HasMany(() => CartItem, {onDelete: 'CASCADE'})
   public items!: CartItem[];
 }

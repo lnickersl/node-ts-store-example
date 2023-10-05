@@ -34,9 +34,9 @@ export class User extends Model {
   @Column(DataType.STRING)
   public name!: string;
 
-  @HasOne(() => Cart)
+  @HasOne(() => Cart, {onDelete: 'CASCADE'})
   public cart!: Cart;
 
-  @HasMany(() => Rating)
+  @HasMany(() => Rating, {onDelete: 'CASCADE'})
   public ratings!: Rating[];
 }

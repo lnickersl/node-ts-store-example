@@ -22,6 +22,6 @@ export class Brand extends Model {
   @BelongsToMany(() => Category, () => CategoryBrand)
   public categories!: Category[];
 
-  @HasMany(() => Product)
+  @HasMany(() => Product, {onDelete: 'CASCADE'})
   public products!: Product[];
 }

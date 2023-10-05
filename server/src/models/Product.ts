@@ -43,13 +43,13 @@ export class Product extends Model {
   @BelongsTo(() => Category)
   public category!: Category;
 
-  @HasMany(() => Rating)
-  public ratings!: Rating[];
+  @HasMany(() => Rating, {onDelete: 'CASCADE'})
+  public ratingz!: Rating[];
 
-  @HasMany(() => CartItem)
+  @HasMany(() => CartItem, {onDelete: 'CASCADE'})
   public cartItems!: CartItem[];
 
-  @HasMany(() => ProductInfo)
+  @HasMany(() => ProductInfo, {onDelete: 'CASCADE'})
   public info!: ProductInfo[];
 
   @HasMany(() => PurchaseItem)
