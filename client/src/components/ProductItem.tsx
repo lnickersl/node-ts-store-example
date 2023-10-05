@@ -20,7 +20,7 @@ const ProductItem = ({product}: {product: IProduct}) => {
         <div className="ms-1 mt-1 d-flex justify-content-between align-items-center">
           <div className="text-black-50">Samsung</div>
           <div className="d-flex align-items-center">
-            <div>{product?.rating?.toFixed(1) || 0}</div>
+            <div>{Number(product?.rating)?.toFixed(1) || 0}</div>
             <Image
               width={16}
               height={16}

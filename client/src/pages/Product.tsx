@@ -58,7 +58,7 @@ const Product = observer(() => {
                 fontSize: 32,
               }}
             >
-              {product.rating?.toFixed(1) || 0}
+              {Number(product.rating)?.toFixed(1) || 0}
             </div>
           </Row>
         </Col>

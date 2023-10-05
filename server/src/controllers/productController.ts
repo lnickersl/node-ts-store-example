@@ -69,16 +69,23 @@ class ProductController {
 
     const offset = (pageNumber - 1) * limitNumber;
 
-    const where: {brandId?: string; categoryId?: string} = {};
+    const where: {brandId?: number; categoryId?: number} = {};
 
-    if (brandId) where.brandId = brandId.toString();
-    if (categoryId) where.categoryId = categoryId.toString();
+    if (brandId) where.brandId = Number(brandId);
+    if (categoryId) where.categoryId = Number(categoryId);
 
     const products = await Product.findAndCountAll({
       where,
+      include: [{model: Rating, attributes: []}, Brand, Category],
+      attributes: {
+        include: [
+          [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'rating'],
+        ],
+      },
+      group: ['Product.id'],
       limit: limitNumber,
       offset,
-    });
+    }).catch(console.log);
 
     res.json(products);
   };
@@ -90,26 +97,16 @@ class ProductController {
       return next(ApiError.badRequest('Не указан ID'));
     }
 
-    let product;
-    try {
-      product = await Product.findOne({
-        where: {id},
+    const product = await Product.findOne({
+      where: {id},
+      include: [{model: Rating, attributes: []}, Category, Brand, ProductInfo],
+      attributes: {
         include: [
-          {model: Rating, attributes: []},
-          Category,
-          Brand,
-          ProductInfo,
+          [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'rating'],
         ],
-        attributes: {
-          include: [
-            [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'rating'],
-          ],
-        },
-        group: ['Product.id', 'category.id', 'brand.id', 'info.id'],
-      }).catch(console.error);
-    } catch (err) {
-      console.log(err);
-    }
+      },
+      group: ['Product.id', 'category.id', 'brand.id', 'info.id'],
+    });
 
     res.json(product);
   };
