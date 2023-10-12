@@ -18,7 +18,7 @@ const ProductItem = ({product}: {product: IProduct}) => {
           src={PRODUCT_IMG_ROUTE + product.img}
         ></Image>
         <div className="ms-1 mt-1 d-flex justify-content-between align-items-center">
-          <div className="text-black-50">Samsung</div>
+          <div className="text-black-50">{product?.brand?.name || ''}</div>
           <div className="d-flex align-items-center">
             <div>{Number(product?.rating)?.toFixed(1) || 0}</div>
             <Image
