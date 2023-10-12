@@ -76,15 +76,24 @@ class ProductController {
 
     const products = await Product.findAndCountAll({
       where,
-      include: [{model: Rating, attributes: []}, Brand, Category],
+      subQuery: false,
+      include: [
+        {
+          model: Rating,
+          as: 'ratings',
+          attributes: [],
+        },
+        Brand,
+      ],
       attributes: {
         include: [
           [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'rating'],
         ],
       },
-      group: ['Product.id'],
       limit: limitNumber,
       offset,
+      order: [['id', 'DESC']],
+      group: ['Product.id', 'brand.id'],
     }).catch(console.log);
 
     res.json(products);
@@ -99,7 +108,17 @@ class ProductController {
 
     const product = await Product.findOne({
       where: {id},
-      include: [{model: Rating, attributes: []}, Category, Brand, ProductInfo],
+      subQuery: false,
+      include: [
+        {
+          model: Rating,
+          as: 'ratings',
+          attributes: [],
+        },
+        Category,
+        Brand,
+        ProductInfo,
+      ],
       attributes: {
         include: [
           [sequelize.fn('AVG', sequelize.col('ratings.rating')), 'rating'],

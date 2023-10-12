@@ -44,7 +44,7 @@ export class Product extends Model {
   public category!: Category;
 
   @HasMany(() => Rating, {onDelete: 'CASCADE'})
-  public ratingz!: Rating[];
+  public ratings!: Rating[];
 
   @HasMany(() => CartItem, {onDelete: 'CASCADE'})
   public cartItems!: CartItem[];

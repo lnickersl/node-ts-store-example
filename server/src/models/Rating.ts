@@ -1,5 +1,6 @@
 import {
   AllowNull,
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
@@ -22,6 +23,12 @@ export class Rating extends Model {
   @ForeignKey(() => Product)
   public productId!: number;
 
+  @BelongsTo(() => Product)
+  public product!: Product;
+
   @ForeignKey(() => User)
   public userId!: number;
+
+  @BelongsTo(() => User)
+  public user!: User;
 }

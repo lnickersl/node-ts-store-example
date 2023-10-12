@@ -13,12 +13,14 @@ export const fetchProducts = async (
   page: number,
   limit = 5
 ) => {
-  const {data} = await $host.get<{count: number; rows: IProduct[]}>(
-    'api/product',
-    {params: {categoryId, brandId, page, limit}}
-  );
+  const {
+    data: {count, rows},
+  } = await $host.get<{
+    count: {count: number}[];
+    rows: IProduct[];
+  }>('api/product', {params: {categoryId, brandId, page, limit}});
 
-  return data;
+  return {rows, count: count?.length};
 };
 
 export const fetchProduct = async (id: number) => {
